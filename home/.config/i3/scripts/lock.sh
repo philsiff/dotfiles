@@ -1,0 +1,1 @@
+/home/phillip/.homesick/repos/dotfiles/home/.scripts/lock.sh
