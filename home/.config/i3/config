@@ -5,6 +5,8 @@
 # this file and re-run i3-config-wizard(1).
 #
 
+set $scripts ~/.config/i3/scripts
+
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -35,8 +37,24 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
+# Prevent focus from following mouse
+focus_follows_mouse no
+
+# Movement
+set $left h
+set $down j
+set $up k
+set $right l
+
 # kill focused window
 bindsym $mod+Shift+q kill
+
+# disable window titlebars (Required for i3-gaps)
+for_window [class="^.*"] border pixel 0
+
+# gaps
+gaps inner 10
+#gaps outer 5
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
@@ -46,10 +64,10 @@ bindsym $mod+d exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -58,10 +76,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -70,7 +88,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+o split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -133,7 +151,7 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 
 # force programs to open in certain workspaces
 assign [class="chromium-browser"] $workspace1
-assign [class="URxvt"] $workspace2
+#assign [class="URxvt"] $workspace2
 assign [class="Spotify"] $workspace10
 
 # reload the configuration file
@@ -188,10 +206,10 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+r mode "resize"
 
 # keybinds
-bindsym $mod+Shift+x exec $HOME/.config/i3/scripts/lock.sh 
+bindsym $mod+Shift+x exec $scripts/lock.sh 
 
 # startup
-exec_always --no-startup-id feh --bg-scale /home/phillip/Pictures/Wallpapers/hex.jpg
+exec_always --no-startup-id feh --bg-scale /home/phillip/Pictures/Wallpapers/current.jpg
 
 # color variables
 set $bg-color            #2f343f
@@ -207,10 +225,10 @@ client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-co
 client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
 
-# Start i3bar to display a workspace bar (plus the system information i3status
+# Start i3bar to display a workspace bar (plus the system information i3blocks
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command i3blocks -c $HOME/.config/i3/i3blocks.conf
         tray_output primary
         colors {
             background $bg-color
